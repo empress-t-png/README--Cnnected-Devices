@@ -19,6 +19,8 @@ URL: https://github.com/empress-t-png/cda-python-components/tree/labmodule03
 
 ### UML Design Diagram(s)
 
+<img width="1008" height="905" alt="Lab03 uml diagram" src="https://github.com/user-attachments/assets/123c6b40-6ffe-4965-b2f7-a43e4c5884b5" />
+
 
 
 ..............................................................................................................................
