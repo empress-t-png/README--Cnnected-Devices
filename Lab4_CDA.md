@@ -1,7 +1,6 @@
 # Constrained Device Application (Connected Devices)
 
- Lab Module 04
-
+Lab Module 04
 
 Description
 
@@ -13,15 +12,95 @@ How does your implementation work?
 
 All emulator classes inherit from BaseSensorSimTask or BaseActuatorSimTask and initialize a SenseHAT instance based on the enableEmulator configuration flag. Sensor emulators override generateTelemetry() to read from Sense HAT sensors, while actuator emulators override _activateActuator() and _deactivateActuator() to display messages on the LED screen. SensorAdapterManager and ActuatorAdapterManager use dynamic module loading with import_module() to instantiate either simulators or emulators at runtime, providing seamless switching between modes without code changes.
 
- Code Repository and Branch
+Code Repository and Branch
 
 URL: https://github.com/empress-t-png/cda-python-components/tree/labmodule04
-![Lab Module 04 UML Class Diagram](./lab04-class-diagram.png)
+```mermaid
+classDiagram
+    class BaseSensorSimTask {
+        <<abstract>>
+        +generateTelemetry()
+        +getTelemetryValue()
+    }
+    
+    class BaseActuatorSimTask {
+        <<abstract>>
+        +updateActuator(data)
+        +_activateActuator()
+        +_deactivateActuator()
+    }
+    
+    class HumiditySensorEmulatorTask {
+        -senseHat
+        +generateTelemetry()
+    }
+    
+    class PressureSensorEmulatorTask {
+        -senseHat
+        +generateTelemetry()
+    }
+    
+    class TemperatureSensorEmulatorTask {
+        -senseHat
+        +generateTelemetry()
+    }
+    
+    class HumidifierActuatorEmulatorTask {
+        -senseHat
+        +_activateActuator()
+        +_deactivateActuator()
+    }
+    
+    class HvacActuatorEmulatorTask {
+        -senseHat
+        +_activateActuator()
+        +_deactivateActuator()
+    }
+    
+    class LedDisplayEmulatorTask {
+        -senseHat
+        +_activateActuator()
+        +_deactivateActuator()
+    }
+    
+    class SensorAdapterManager {
+        -humiditySensor
+        -pressureSensor
+        -tempSensor
+        +handleTelemetry()
+        +startManager()
+        +stopManager()
+    }
+    
+    class ActuatorAdapterManager {
+        -humidifierActuator
+        -hvacActuator
+        -ledDisplay
+        +sendActuatorCommand(data)
+        +startManager()
+        +stopManager()
+    }
+    
+    BaseSensorSimTask <|-- HumiditySensorEmulatorTask
+    BaseSensorSimTask <|-- PressureSensorEmulatorTask
+    BaseSensorSimTask <|-- TemperatureSensorEmulatorTask
+    
+    BaseActuatorSimTask <|-- HumidifierActuatorEmulatorTask
+    BaseActuatorSimTask <|-- HvacActuatorEmulatorTask
+    BaseActuatorSimTask <|-- LedDisplayEmulatorTask
+    
+    SensorAdapterManager o-- HumiditySensorEmulatorTask
+    SensorAdapterManager o-- PressureSensorEmulatorTask
+    SensorAdapterManager o-- TemperatureSensorEmulatorTask
+    
+    ActuatorAdapterManager o-- HumidifierActuatorEmulatorTask
+    ActuatorAdapterManager o-- HvacActuatorEmulatorTask
+    ActuatorAdapterManager o-- LedDisplayEmulatorTask
+```
 
 The UML diagram shows the class hierarchy with BaseSensorSimTask and BaseActuatorSimTask as parent classes, the six emulator classes that extend them, and the two manager classes (SensorAdapterManager and ActuatorAdapterManager) that orchestrate the emulator instances.
 
- Unit Tests Executed
-
+Unit Tests Executed
 
 *Lab Module 03 Unit Tests (Regression Testing):*
 
@@ -31,14 +110,11 @@ The UML diagram shows the class hierarchy with BaseSensorSimTask and BaseActuato
     test_HumidifierActuatorSimTask
     test_HvacActuatorSimTask
 
-
 *Lab Module 04 Unit Tests:*
 
     No new unit tests for Lab Module 04 (emulator functionality tested via integration tests)
 
-
- Integration Tests Executed
-
+Integration Tests Executed
 
 *Lab Module 03 Integration Tests (Regression Testing):*
 
@@ -46,7 +122,6 @@ The UML diagram shows the class hierarchy with BaseSensorSimTask and BaseActuato
     test_ActuatorAdapterManager
     test_DeviceDataManagerNoComms
     test_ConstrainedDeviceApp
-
 
 *Lab Module 04 Integration Tests:*
 
@@ -59,6 +134,3 @@ The UML diagram shows the class hierarchy with BaseSensorSimTask and BaseActuato
     test_SensorAdapterManager (with emulator support)
     test_ActuatorAdapterManager (with emulator support)
     test_ConstrainedDeviceApp (with emulator support)
-
-
-
