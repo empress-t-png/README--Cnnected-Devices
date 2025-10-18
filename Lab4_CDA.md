@@ -16,7 +16,7 @@ All emulator classes inherit from BaseSensorSimTask or BaseActuatorSimTask and i
  Code Repository and Branch
 
 URL: https://github.com/empress-t-png/cda-python-components/tree/labmodule04
-
+![Lab Module 04 UML Class Diagram](./lab04-class-diagram.png)
 
 The UML diagram shows the class hierarchy with BaseSensorSimTask and BaseActuatorSimTask as parent classes, the six emulator classes that extend them, and the two manager classes (SensorAdapterManager and ActuatorAdapterManager) that orchestrate the emulator instances.
 
