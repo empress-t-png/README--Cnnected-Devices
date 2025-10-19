@@ -18,7 +18,7 @@ URL: https://github.com/empress-t-png/cda-python-components/tree/labmodule05
 
 UML Design Diagram(s)
 
-![CDA Lab Module 05 UML Diagram](../images/CDA-LM05-UML.png)
+
 
 Diagram Overview:
 - DataUtil: Provides JSON conversion methods for data objects
