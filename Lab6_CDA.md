@@ -18,7 +18,6 @@ URL: https://github.com/empress-t-png/cda-python-components/tree/labmodule06
 
  UML Design Diagram(s)
 
-NOTE: The UML diagram will be added showing the MqttClientConnector class structure and its integration with DeviceDataManager.
 
 ![Lab Module 06 UML Diagram](CDA-LM06-UML.png)
 
