@@ -1,12 +1,7 @@
 Gateway Device Application (Connected Devices)
  Lab Module 07
-
-Be sure to implement all the PIOT-GDA-* issues (requirements) listed at [PIOT-INF-07-001 - Lab Module 07](https://github.com/orgs/programming-the-iot/projects/1).
-
 Description
-
  What does your implementation do?
-
 My implementation creates an MQTT client for the Gateway Device Application (GDA) using the Eclipse Paho library. The MqttClientConnector class implements IPubSubClient and MqttCallbackExtended interfaces to provide connection management, message publishing, and topic subscription capabilities. It integrates with DeviceDataManager to enable MQTT communication between the GDA and other IoT devices through a Mosquitto broker.
 
 How does your implementation work?
