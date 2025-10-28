@@ -11,7 +11,7 @@ The MqttClientConnector uses the Paho MQTT library to connect to a Mosquitto bro
  Code Repository and Branch
 
 URL: https://github.com/empress-t-png/gda-java-components/tree/labmodule07
-
+![Lab Module 07 UML Class Diagram](lab7-uml-diagram.png)
 
  Unit Tests Executed
 
