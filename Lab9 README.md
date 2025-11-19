@@ -14,8 +14,8 @@ The implementation works through two complementary CoAP client connectors: Async
 
 URL: https://github.com/empress-t-png/cda-python-components/tree/default
 
- UML Design Diagram(s)
 lab9 uml diagram.md
+
 
 Unit Tests Executed
 
