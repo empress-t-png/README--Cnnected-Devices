@@ -1,7 +1,6 @@
 Constrained Device Application (Connected Devices)
 
  Lab Module 09
-
 Be sure to implement all the PIOT-CDA-* issues (requirements) listed at [PIOT-CDA-09-005-A, PIOT-CDA-09-006, PIOT-CDA-09-100](https://github.com/orgs/programming-the-iot/projects/1).
 
 Description
@@ -16,6 +15,7 @@ URL: https://github.com/empress-t-png/cda-python-components/tree/default
 
 lab9 uml diagram.md
 
+![Lab 9 UML Diagram](./lab9-uml-diagram.png)
 
 Unit Tests Executed
 
