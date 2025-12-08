@@ -1,178 +1,42 @@
-# Lab Module 10 - Edge Integration
+Description
 
-Lab Module 10 implements bidirectional MQTT communication between the Constrained Device Application (CDA) and Gateway Device Application (GDA), enabling edge-based data processing, analytics, and actuator command triggering.
+My implementation for Lab 11 enables the Gateway Device Application (GDA) to integrate with cloud services using MQTT and CoAP protocols. The system publishes telemetry data (sensor readings and system performance metrics) to a cloud broker, while also subscribing to actuator command topics. This allows the GDA to receive commands from the cloud and trigger local actuation events in real time. The design supports event-driven communication, ensuring that IoT devices can both send data upstream and respond to downstream instructions seamlessly.
 
- Completed Exercises
+The implementation works by extending the existing GDA framework with cloud connectors (MqttClientConnector, CloudClientConnector, and CoapClientConnector). The DeviceDataManager coordinates data flow and implements handleIncomingMessage() to process incoming JSON payloads from the cloud. These payloads are converted into ActuatorData objects using DataUtil, validated, and then published back to the broker or acted upon locally. System performance tasks (CPU, memory, disk utilization) are scheduled and reported to the cloud, while sensor data is simulated and transmitted. Together, these components demonstrate secure, bidirectional IoT communication with the cloud.
+Code Repository and Branch
 
-PIOT-GDA-10-002: Message Listener Implementation
+URL: https://github.com/empress-t-png/gda-java-components Branch
+UML Design Diagram(s)
 
-- Created three inner classes in `MqttClientConnector.java`:
-  - `ActuatorResponseMessageListener` - Handles actuator command responses from CDA
-  - `SensorDataMessageListener` - Processes incoming sensor data (humidity, temperature, pressure)
-  - `SystemPerformanceDataMessageListener` - Handles system performance metrics
-- Updated `connectComplete()` callback to subscribe to CDA topics:
-  - `PIOT/ConstrainedDevice/ActuatorResponse`
-  - `PIOT/ConstrainedDevice/SensorMsg`
-  - `PIOT/ConstrainedDevice/SystemPerfMsg`
-- Implemented JSON deserialization using `DataUtil`
-- Routed messages to appropriate `IDataMessageListener` callback methods
+UML diagrams 
 
 
 
-Implementation Details:
-- Added `handleUpstreamTransmission()` stub method for future cloud integration
-- Implemented humidity threshold analysis in `DeviceDataManager`:
-  - Monitors humidity sensor data for threshold crossings
-  - Triggers humidifier ON command when humidity falls below 30%
-  - Triggers humidifier OFF command when humidity exceeds 50%
-  - Uses time-based analysis (300 second threshold)
-- Integrated actuator command publishing to CDA via MQTT
-- Configuration-driven threshold management from `PiotConfig.props`
+    Class diagram showing DeviceDataManager, CloudClientConnector, and MqttClientConnector.
 
-Key Files Modified:
-- `src/main/java/programmingtheiot/gda/app/DeviceDataManager.java`
-- `config/PiotConfig.props`
+    Sequence diagram showing the flow of an actuator command from the cloud to the GDA.
 
-Configuration Parameters:
+ 
+Unit Tests Executed
 
-[GatewayDevice]
-enableMqttClient = True
-handleHumidityChangeOnDevice = True
-humidityMaxTimePastThreshold = 300
-nominalHumiditySetting = 40.0
-triggerHumidifierFloor = 30.0
-triggerHumidifierCeiling = 50.0
-```
+    ConfigUtilTest
 
-PIOT-INT-10-003: Integration Testing
-Status: Complete
+    DataUtilTest
 
-Test Results:
-- ✅ CDA successfully publishes sensor data to MQTT broker
-- ✅ GDA successfully subscribes and receives sensor data
-- ✅ JSON serialization/deserialization working correctly
-- ✅ Message routing to appropriate handlers functioning
-- ✅ Upstream transmission placeholder invoked
-- ✅ End-to-end MQTT communication verified
+    ActuatorDataTest
 
-Architecture
+    SensorDataTest
 
-System Components
+    SystemPerformanceDataTest
 
-┌─────────────────────┐         MQTT Broker        ┌─────────────────────┐
-│                     │      (Mosquitto:1883)       │                     │
-│  Constrained Device │◄────────────────────────────►│  Gateway Device     │
-│  Application (CDA)  │                             │  Application (GDA)  │
-│                     │                             │                     │
-│  Python             │                             │  Java               │
-│  - Sensors          │   Publish Topics:           │  - MqttClient       │
-│  - Actuators        │   - SensorMsg               │  - DeviceDataMgr    │
-│  - MqttClient       │   - SystemPerfMsg           │  - Analytics        │
-│  - Simulators       │   - ActuatorResponse        │                     │
-│                     │                             │                     │
-│                     │   Subscribe Topics:         │                     │
-│                     │   - ActuatorCmd             │                     │
-└─────────────────────┘                             └─────────────────────┘
-```
+Integration Tests Executed
 
-Data Flow
+    DeviceDataManagerTest
 
-1. CDA → GDA (Sensor Data)
-   - CDA generates/reads sensor data
-   - Serializes to JSON using `DataUtil`
-   - Publishes to `PIOT/ConstrainedDevice/SensorMsg`
-   - GDA receives via `SensorDataMessageListener`
-   - DeviceDataManager analyzes data
-   - Upstream transmission invoked
+    CloudClientConnectorTest
 
-2. GDA → CDA (Actuator Commands):
-   - GDA analyzes sensor data for threshold crossings
-   - Creates `ActuatorData` command
-   - Serializes to JSON
-   - Publishes to `PIOT/ConstrainedDevice/ActuatorCmd`
-   - CDA receives and executes command
+    MqttClientConnectorTest
 
-Prerequisites
+    CoapClientConnectorTest
 
-Software Requirements
-- Java 11 or higher
-- Python 3.9 or higher
-- Eclipse IDE (with PyDev for Python)
-- Mosquitto MQTT Broker
-- Maven (for dependency management)
-
- Dependencies
-- Eclipse Paho MQTT Client (Java)
-- Eclipse Paho MQTT Client (Python)
-- Californium CoAP Framework
-- Sense HAT Emulator (optional)
-
-Installation & Setup
-
- 1. Clone Repository
-bash
-git clone https://github.com/empress-t-png/gda-java-components.git
-cd gda-java-components
-git checkout labmodule10
-
- 2. Configure MQTT Broker
-```bash
-# Start Mosquitto
-sudo systemctl start mosquitto
-sudo systemctl enable mosquitto
-
-# Verify it's running
-sudo systemctl status mosquitto
-
-
-3. Configure GDA
-Edit `config/PiotConfig.props`:
-```properties
-[GatewayDevice]
-enableMqttClient = True
-enableSystemPerformance = True
-
-[Mqtt.GatewayService]
-host = localhost
-port = 1883
-enableAuth = False
-enableCrypt = False
-
-Running the Application
-
- Start GDA
-1. Open Eclipse
-2. Right-click `src/main/java/programmingtheiot/gda/app/GatewayDeviceApp.java`
-3. Select **Run As → Java Application**
-
-Expected Console Output:
-
-INFO: Initializing GDA...
-INFO: Starting GDA...
-INFO: Connecting to MQTT broker: tcp://localhost:1883
-INFO: Connected to broker: tcp://localhost:1883 (reconnect = false)
-INFO: Subscribing to topic: PIOT/ConstrainedDevice/ActuatorResponse
-INFO: Subscribing to topic: PIOT/ConstrainedDevice/SensorMsg
-INFO: Subscribing to topic: PIOT/ConstrainedDevice/SystemPerfMsg
-INFO: GDA started successfully.
-
-
- Testing
-
- Unit Tests
-Run JUnit tests in Eclipse:
-bash
-src/test/java/programmingtheiot/part03/integration/connection/
-├── MqttClientPerformanceTest.java
-├── MqttClientConnectorTest.java
-└── DeviceDataManagerWithCommsTest.java
-
-
-Integration Tests
-1. Start Mosquitto MQTT broker
-2. Start GDA application
-3. Start CDA application
-4. Verify bidirectional communication in logs
-5. Adjust sensor values to trigger threshold crossings
-6. Verify actuator commands are sent
-
+    SystemPerformanceManagerTest
