@@ -1,4 +1,4 @@
-Description
+LAB11 Description
 
 My implementation for Lab 11 enables the Gateway Device Application (GDA) to integrate with cloud services using MQTT and CoAP protocols. The system publishes telemetry data (sensor readings and system performance metrics) to a cloud broker, while also subscribing to actuator command topics. This allows the GDA to receive commands from the cloud and trigger local actuation events in real time. The design supports event-driven communication, ensuring that IoT devices can both send data upstream and respond to downstream instructions seamlessly.
 
