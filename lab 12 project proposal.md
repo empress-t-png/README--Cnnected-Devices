@@ -14,6 +14,10 @@ System Architecture
 The solution implements a three-tier IoT architecture consisting of the Constrained Device Application (CDA), Gateway Device Application (GDA), and Cloud Services Framework (CSF):Data Flow
 Uplink (Sensor → Cloud):
 
+
+![System Architecture Diagram](SYSTEM%20ARCHITECTURE%20DIAGRAM.png)
+
+
 SenseHAT temperature sensor reads data every 5 seconds
 CDA packages data as SensorData object
 CDA threshold logic checks temperature range
