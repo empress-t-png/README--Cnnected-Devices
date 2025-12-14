@@ -83,7 +83,7 @@ Executed tests include:
  Requirement #3: Data Collection and Visualization
 The following screenshots show sensor and system performance data collected over 1+ hour with 200+ samples, visualized in Ubidots.
 
-### Temperature Sensor Data
+Temperature Sensor Data
 ![Temperature Data](Screenshot%20from%202025-12-14%2011-04-06.png)
 
  Humidity Sensor Data
@@ -92,7 +92,7 @@ The following screenshots show sensor and system performance data collected over
  Pressure Sensor Data
 ![Pressure Data](Screenshot%20from%202025-12-14%2008-48-40.png)
 
-**Screenshots captured:** December 14, 2025  
-**Total samples:** 200+ per variable  
-**Collection period:** 1+ hour continuous testing
+Screenshots captured:** December 14, 2025  
+Total samples:** 200+ per variable  
+Collection period:** 1+ hour continuous testing
 
