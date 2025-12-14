@@ -84,7 +84,6 @@ Executed tests include:
 The following screenshots show sensor and system performance data collected over 1+ hour with 200+ samples, visualized in Ubidots.
 
 Temperature Sensor Data
-![Temperature Data](Screenshot%20from%202025-12-14%2011-04-06.png)
 
  Humidity Sensor Data
 ![Humidity Data](Screenshot%20from%202025-12-14%2008-58-36.png)
