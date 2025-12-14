@@ -16,10 +16,7 @@ Repository: https://github.com/empress-t-png/gda-java-components
 labmodule12
 
 UML Design Diagram(s)
-
-image.png
-
-image.png
+![Lab 12 Architecture](presentation%20lab%2012%20diagram.png)
 
  Unit Tests Executed
 
