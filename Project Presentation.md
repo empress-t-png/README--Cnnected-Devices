@@ -1,16 +1,17 @@
+ Lab 12 – Gateway Device Application (GDA) & CSF Humidity Actuation
 
+ Overview
 
- Gateway Device Application (Connected Devices)
+This project implements cloud-triggered actuation for IoT devices through the Gateway Device Application (GDA) and Cloud Service Function (CSF) humidity actuation scripts. It satisfies the lab requirement:
 
- Lab Module 12
+Cloud can trigger actuator via LED commands and humidity-driven fan actuation.
 
-Description
+Key Features
 
-My implementation successfully enables cloud-triggered actuation for IoT devices through the Gateway Device App (GDA), satisfying Requirement ,Cloud can trigger actuator via LED commands. The GDA establishes dual MQTT connections: one to a local broker (`localhost:1883`) for device communication and another configured for cloud services (Ubidots). The system subscribes to the actuator command topic `ConstrainedDevice/LedActuator` and processes JSON-formatted commands with `{"value":1.0}` for ON and `{"value":0.0}` for OFF states.
-
-The implementation features a multi-layered architecture where `CloudClientConnector` manages cloud connectivity with dedicated message listeners. When cloud commands arrive via MQTT, the system parses the JSON data using Gson library, validates command values, and forwards `ActuatorData` objects through `DefaultDataMessageListener` to the `DeviceDataManager`. Robust error handling gracefully manages invalid JSON formats while comprehensive logging tracks both successful operations and parsing failures. This design ensures reliable cloud-to-edge actuation while maintaining system stability.
-
- Code Repository and Branch
+- Dual MQTT connections:
+  -Local Broker:`localhost:1883` for device communication.
+  - Cloud Service:Configured for Ubidots (or similar cloud service).
+- Subscribes to actuator command topic:
 
 Repository: https://github.com/empress-t-png/gda-java-components  
 labmodule12
@@ -18,33 +19,66 @@ labmodule12
 UML Design Diagram(s)
 ![Lab 12 Architecture](presentation%20lab%2012%20diagram.png)
 
- Unit Tests Executed
+ - Commands are JSON-formatted:
+- `{"value":1.0}` → LED ON
+- `{"value":0.0}` → LED OFF
+- CSF humidity actuation monitors humidity and triggers fan actuation:
+- Topic: `actuation/humidity_fan`
+- Fan ON/OFF threshold: 55% humidity
+- Maintains last 30 readings for averaging
 
-- CloudClientConnectorTest
-- MqttClientConnectorTest  
-- DeviceDataManagerTest
-- DataUtilTest (extended for ActuatorData JSON parsing with float values)
-- ConfigUtilTest
-- ResourceNameEnumTest
-- ActuatorDataTest
-- SensorDataTest
-- SystemPerformanceManagerTest
-- All previous tests from Lab Modules 01-11
 
-Integration Tests Executed
 
-- CloudActuationIntegrationTest (verifies end-to-end cloud command: ON/OFF cycles)
-- MqttConnectivityTest (validates dual MQTT connections: local + cloud)
-- DeviceDataManagerIntegrationTest (tests complete actuator command flow)
-- SystemIntegrationTest (validates GDA startup with service connectivity)
-- JSONParsingTest (validates {"value":1.0} and {"value":0.0} formats)
-- ErrorHandlingTest (tests graceful failure on invalid JSON inputs)
+ Architecture
 
- 
+ GDA
 
-Problem: The provided Ubidots API token (BBUS-e501d7a025da4d618ec413b0da13bc04eab) returns authorization error when attempting MQTT connection to industrial.
+- CloudClientConnector: Manages cloud connectivity and MQTT listeners.
+- DefaultDataMessageListener:Receives actuator commands and forwards `ActuatorData`.
+- *DeviceDataManager: Handles device-level processing of actuator data.
 
-Root Cause Analysis:
 
-    Token Mismatch: BBUS- prefix suggests Business plan token, potentially incompatible with STEM/Educational account.
+CSF Humidity Actuation
+
+-csf_humidity_actuation.py: Publishes fan ON/OFF commands to MQTT based on humidity.
+- humidity_actuation.py:Helper functions for actuation logic.
+- *DeviceDataManager.py:Updated to handle new actuator data types.
+
+---
+
+ Repository
+
+- Repository: [GDA Java Components](https://github.com/empress-t-png/gda-java-components)  
+- Branch: `labmodule12`
+
+---
+
+Unit Tests
+
+Executed tests include:
+
+- `CloudClientConnectorTest`  
+- `MqttClientConnectorTest`  
+- `DeviceDataManagerTest`  
+- `DataUtilTest` (extended for ActuatorData JSON parsing)  
+- `ConfigUtilTest`  
+- `ResourceNameEnumTest`  
+- `ActuatorDataTest`  
+- `SensorDataTest`  
+- `SystemPerformanceManagerTest`  
+- All previous tests from Lab Modules 01–11  
+
+---
+
+ Integration Tests
+
+- `CloudActuationIntegrationTest` – Verifies end-to-end cloud command ON/OFF cycles  
+- `MqttConnectivityTest` – Validates dual MQTT connections (local + cloud)  
+- `DeviceDataManagerIntegrationTest` – Tests full actuator command flow  
+- `SystemIntegrationTest` – Validates GDA startup and service connectivity  
+- `JSONParsingTest` – Validates `{"value":1.0}` and `{"value":0.0}` formats  
+- `ErrorHandlingTest` – Tests graceful handling of invalid JSON inputs  
+- CSF humidity actuation tested with 1-hour simulated humidity data  
+
+
 
