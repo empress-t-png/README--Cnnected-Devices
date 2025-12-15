@@ -91,7 +91,7 @@ Temperature Sensor Data
  Pressure Sensor Data
 ![Pressure Data](Screenshot%20from%202025-12-14%2008-48-40.png)
 
-Screenshots captured:** December 14, 2025  
-Total samples:** 200+ per variable  
-Collection period:** 1+ hour continuous testing
+Screenshots captured: December 14, 2025  
+Total samples: 200+ per variable  
+Collection period:1+ hour continuous testing
 
